@@ -8,14 +8,16 @@ namespace Entertainment_Guild.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(StoreDBContext ctx)
         {
-            _logger = logger;
+            this.ctx = ctx;
         }
 
+        public StoreDBContext ctx;
         public IActionResult Index()
         {
-            return View();
+            List<Product> products = ctx.Product.ToList();
+            return View(products);
         }
 
         public IActionResult AboutUs()

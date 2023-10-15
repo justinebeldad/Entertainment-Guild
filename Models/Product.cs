@@ -8,7 +8,7 @@ public class Product
     public string? Author { get; set; }
     public string? Description { get; set; }
     public int Genre { get; set; }
-    public int subGenres { get; set; }
+    public int subGenre { get; set; }
     public DateTime Published { get; set; }
     public string? LastUpdatedBy { get; set; }
     public DateTime LastUpdated { get; set; }
