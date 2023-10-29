@@ -1,5 +1,6 @@
 ﻿using Entertainment_Guild.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Entertainment_Guild.Controllers
 {
@@ -9,6 +10,24 @@ namespace Entertainment_Guild.Controllers
         public ProductController(StoreDBContext ctx)
         {
             context = ctx;
+        }
+
+        public async Task<ActionResult> Index(string searchQuery)
+        {
+            if (context.Product == null)
+            {
+                return Problem("Entity set is null.");
+            }
+
+            var product = from p in context.Product
+                          select p;
+
+            if (!String.IsNullOrEmpty(searchQuery))
+            {
+                product = product.Where(p => p.Name.Contains(searchQuery));
+            }
+
+            return View("~/Views/Home/Index.cshtml", await product.ToListAsync());
         }
 
         [HttpGet]
@@ -63,6 +82,16 @@ namespace Entertainment_Guild.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult Details(int id)
+        {
+            Product product = context.Product.FirstOrDefault(p => p.ID == id);
 
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
     }
 }

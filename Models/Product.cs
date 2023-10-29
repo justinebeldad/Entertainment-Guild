@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Entertainment_Guild.Models;
 
 public class Product
@@ -12,4 +14,7 @@ public class Product
     public DateTime Published { get; set; }
     public string? LastUpdatedBy { get; set; }
     public DateTime LastUpdated { get; set; }
+
+    [NotMapped]
+    public double Price { get; set; }
 }

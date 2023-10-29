@@ -6,8 +6,7 @@ namespace Entertainment_Guild.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
+        //public HomeController(ILogger<HomeController> logger);
         public HomeController(StoreDBContext ctx)
         {
             this.ctx = ctx;
@@ -17,6 +16,20 @@ namespace Entertainment_Guild.Controllers
         public IActionResult Index()
         {
             List<Product> products = ctx.Product.ToList();
+            List<Stocktake> prices = ctx.Stocktake.ToList();
+
+            foreach (Product product in products)
+            {
+                foreach (Stocktake price in prices)
+                {
+                    if (price.ProductId == product.ID)
+                    {
+                        product.Price = price.Price;
+                        break;
+                    }
+                }
+            }
+
             return View(products);
         }
 
@@ -26,11 +39,6 @@ namespace Entertainment_Guild.Controllers
         }
 
         public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult P()
         {
             return View();
         }
